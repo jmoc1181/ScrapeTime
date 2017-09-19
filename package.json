@@ -1,0 +1,22 @@
+{
+  "name": "nw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.11.12",
+    "mysql": "^2.14.1",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
