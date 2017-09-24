@@ -46,32 +46,24 @@ db.once("open", function() {
 // Routes
 // ======
 
-// A GET request to scrape the echojs website
+// A GET request to scrape the spacenews website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
   request("http://spacenews.com/segment/news/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
 
-//Lauren gave me permission to do this :) 
-     var result = {}
+    //Lauren gave me permission to do this :) 
+    var result = {}
 
     // Now, we grab every h2 within an article tag, and do the following:
     $("h2.launch-title").each(function(i, element) {
+
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
 
-})
-
 //add in summary each function 
-     $("p.post-excerpt").each(function(i, element) {
-
-      // Add the text and href of every link, and save them as properties of the result object
-      result.summary = $(this).text();
-      console.log(this);
-})
-
       // Using our Article model, create a new entry
       // This effectively passes  the result object to the entry (and the title and link)
       var entry = new Article(result);
@@ -86,12 +78,16 @@ app.get("/scrape", function(req, res) {
         else {
           console.log(doc);
         }
-      });
-  
-  });
+});
+})
+})
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
 });
+
+
+
+
 
 
 
