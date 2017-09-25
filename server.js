@@ -1,6 +1,5 @@
 /* Showing Mongoose's "Populated" Method
  * =============================================== */
-
 // Dependencies
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -62,6 +61,11 @@ app.get("/scrape", function(req, res) {
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
+
+      /*$("p.post-excerpt").each(function(i, element) {
+      // Add the text and href of every link, and save them as properties of the result object
+      result.summary = $(element).text();
+  })*/
 
 //add in summary each function 
       // Using our Article model, create a new entry
