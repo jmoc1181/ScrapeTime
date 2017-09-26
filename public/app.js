@@ -5,11 +5,11 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append(" <div class='card'><div class='card-block'>" + "<p data-id='" + data[i]._id + "'>" +  "<b>" + data[i].title + "</b>" + "<br> " + " <button type='button' class='btn btn-info'>Add Comment</button>"  + "</p>" + "<a href='" + data[i].link + "' target='_blank'>View Article</a>" + "<br><br>" + 
+    $("#articles").append(" <div class='card'><div class='card-block'>" + "<b><h3>" + data[i].title + "</b></h3>" + "<br>" +  "<a href='" + data[i].link + "' target='_blank'>View Article</a>" + "<p data-id='" + data[i]._id + "'>" 
+      + "<br> " + " <button type='button' class='btn btn-primary'>Add Comment</button>"  + "</p>" +
       "</div></div>");
   }
 });
-
 
 
 // Whenever someone clicks a p tag
@@ -28,13 +28,15 @@ $(document).on("click", "p", function() {
     .done(function(data) {
       console.log(data);
       // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      $("#notes").append("<h4>" + data.title + "</h4>");
       // An input to enter a new title
       $("#notes").append("<input id='titleinput' name='title' >");
       // A textarea to add a new note body
       $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      $("#notes").append("<button type='button' class='btn btn-primary' data-id='" + data._id + "' id='savenote'>Save Note</button> ");
+
+      $("#notes").append("<button type='button' class='btn btn-primary'data-id='" + data._id + "' id='delCom'>Delete Note</button>");
 
       // If there's a note in the article
       if (data.note) {
@@ -45,6 +47,33 @@ $(document).on("click", "p", function() {
       }
     });
 });
+
+ //delete a comment
+ $(document).on("click", "#delCom", function(e) {
+  //prevent form from submitting
+  // e.preventDefault();
+  //article id
+  var articleId = $("#articleTitle").attr("data-id");
+  //comment id
+  var thisId = $(this).attr("data-id");
+
+  console.log(articleId);
+  console.log(thisId);
+
+  $.ajax({
+    method: "POST",
+    url: "/delete/" + articleId,
+    data: {
+      _id: thisId
+    }
+  }).done(function() {
+    console.log("deleted");
+    location.href="/"
+  });
+
+ });
+
+
 
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {

@@ -94,8 +94,6 @@ app.get("/scrape", function(req, res) {
 
 
 
-
-
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
   // Grab every doc in the Articles array
@@ -141,7 +139,7 @@ app.post("/articles/:id", function(req, res) {
 
   // And save the new note the db
   newNote.save(function(error, doc) {
-    // Log any errors
+    // Log any errors 
     if (error) {
       console.log(error);
     }
@@ -163,6 +161,30 @@ app.post("/articles/:id", function(req, res) {
     }
   });
 });
+
+
+app.post("/delete/:id", function(req, res) {
+  console.log(req.body._id);
+
+  //delete comment from article
+  Article.update({"_id": req.params.id}, {$pullAll: {"comments": [req.body._id]}}, function(err, doc) {
+    if(err) {
+      console.log(err)
+    }
+  });
+
+  //delete comment entirely
+  Note.findByIdAndRemove(req.body._id, function(err, doc) {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      res.send(doc);
+    }
+  });
+});
+
+
 
 
 // Listen on port 3000
